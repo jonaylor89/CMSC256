@@ -1,7 +1,6 @@
 /**************************************************
  * John Naylor
- * CMSC256 Section 2
- * Project 1 CustomDate
+ * CMSC256 Section 2 * Project 1 CustomDate
  * CustomeDate class for creating calendar dates
  ************************************************/
 
@@ -27,9 +26,29 @@ public class CustomDate implements Comparable{
   * @param yr   year
   ***********************************************************/
     public CustomDate(int aMonth, int aDay, int yr){
-        setMonth(aMonth);
-        setDay(aDay);
-        setYear(yr);
+        if(isValidDate(aMonth, aDay, yr)){
+            setMonth(aMonth);
+            setDay(aDay);
+            setYear(yr);
+        } else {
+            throw new IllegalArgumentException("Invalid Date");
+        }
+    }
+
+    public boolean isValidDate(int aMonth, int aDay, int yr) {
+        if(yr < 0) {
+            return false; 
+        }
+
+        if(aMonth < 0 || aMonth > 12) {
+            return false;
+        }
+
+        if(aDay < 0 || aDay > numDayInMonth(aMonth)) {
+            return false; 
+        }
+
+        return true;
     }
 
 
@@ -62,10 +81,11 @@ public class CustomDate implements Comparable{
   * @throws IllegalArgumentException invalid month arguments
   ***************************************************************/
     public void setMonth(int aMonth){
-        if(aMonth < 1 || aMonth > 12){
+        if(isValidDate(aMonth, day, year)) {
+            month = aMonth; 
+        } else {
             throw new IllegalArgumentException("Invalid month");
         }
-        month = aMonth;
     }
 
  /*************************************************************
@@ -74,10 +94,12 @@ public class CustomDate implements Comparable{
   * @throws IllegalArgumentException invalid day arguments
   ***********************************************************/
     public void setDay(int aDay){
-        if(aDay  <  1 ||  aDay  >  31 ){
-            throw new IllegalArgumentException("Invalid year");
-        }
-        day =  aDay;
+        if(isValidDate(month, aDay, year)){
+            day = aDay;
+        } else {
+            throw new IllegalArgumentException("Invalid day");
+        } 
+
  }
 
  /***************************************************************
@@ -86,10 +108,11 @@ public class CustomDate implements Comparable{
   * @throws IllegalArgumentException year arguments less than 1
   *************************************************************/
     public void setYear(int newYear){
-        if(newYear < 1){
-            throw new IllegalArgumentException("Invalid year");
+        if(isValidDate(month, day, newYear)) {
+            year = newYear; 
+        } else {
+            throw new IllegalArgumentException("Invalid Year");
         }
-        year = newYear;
     }
 /********************************************
  * Check whether the year is a leap year
@@ -106,12 +129,11 @@ public class CustomDate implements Comparable{
 
         return false;
     } 
-/***************************************************************
- * Determines whether it's the last day of the month or not
- * @return boolean of if it's the last day
- ***************************************************************/
-    public boolean endOfMonth() {
-        switch(month) {
+
+    public int numDayInMonth(int aMonth) {
+        int NumDays = 0;
+
+        switch(aMonth) {
             case 1:
             case 3:
             case 5:
@@ -119,21 +141,30 @@ public class CustomDate implements Comparable{
             case 8:
             case 10:
             case 12:
-                return day == 31;
+                NumDays = 31;
             case 4:
             case 6:
             case 9:
             case 11:
-               return day == 30; 
+               NumDays = 30; 
             case 2:
                 if(isLeapYear()) {
-                    return day == 29; 
+                    return NumDays = 29; 
                 } else {
-                    return day == 28; 
+                    return NumDays = 28; 
                 } 
             default:
                 throw new IllegalArgumentException("Invalid Month");
         }
+        
+    }
+
+/***************************************************************
+ * Determines whether it's the last day of the month or not
+ * @return boolean of if it's the last day
+ ***************************************************************/
+    public boolean endOfMonth() {
+        return day == numDayInMonth(month);
     }
 /*******************************************************
  * Determines if it's the end of the year
