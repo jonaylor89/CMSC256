@@ -1,7 +1,12 @@
-
+/**************************************************
+ * John Naylor
+ * CMSC256 Section 2
+ * Project 1 CustomDate
+ * CustomeDate class for creating calendar dates
+ ************************************************/
 
 public class CustomDate implements Comparable{
-    private int month;     //instance variables
+    private int month;    
     private int day;
     private int year;
 
@@ -30,14 +35,14 @@ public class CustomDate implements Comparable{
 
 /****************************************
   * Returns the month of this Date
-  * @return int
+  * @return month 
   **************************************/
     public int getMonth(){
         return month;
     }
  /*****************************************
   * Returns the day for this Date
-  * @return int
+  * @return day
   ****************************************/
     public int getDay(){
         return day;
@@ -45,7 +50,7 @@ public class CustomDate implements Comparable{
 
  /**************************************************
   * Returns the year of this Date
-  * @return int
+  * @return year
   ***********************************************/
     public int getYear(){
         return year;
@@ -63,11 +68,11 @@ public class CustomDate implements Comparable{
         month = aMonth;
     }
 
- /**
+ /*************************************************************
   * Sets the day of the Date
   * @param aDay  an day name
   * @throws IllegalArgumentException invalid day arguments
-  */
+  ***********************************************************/
     public void setDay(int aDay){
         if(aDay  <  1 ||  aDay  >  31 ){
             throw new IllegalArgumentException("Invalid year");
@@ -86,7 +91,10 @@ public class CustomDate implements Comparable{
         }
         year = newYear;
     }
-
+/********************************************
+ * Check whether the year is a leap year
+ * @return boolean
+ ********************************************/
     public boolean isLeapYear() {
         if(year % 4 == 0) {
             if(year % 100 == 0) {
@@ -98,7 +106,10 @@ public class CustomDate implements Comparable{
 
         return false;
     } 
-
+/***************************************************************
+ * Determines whether it's the last day of the month or not
+ * @return boolean of if it's the last day
+ ***************************************************************/
     public boolean endOfMonth() {
         switch(month) {
             case 1:
@@ -124,11 +135,17 @@ public class CustomDate implements Comparable{
                 throw new IllegalArgumentException("Invalid Month");
         }
     }
-
+/*******************************************************
+ * Determines if it's the end of the year
+ * @return boolean of the month being 12 or not
+ ******************************************************/
     public boolean endOfYear() {
         return month == 12; 
     }
 
+/********************************************** 
+ * Advances the day by one in the year
+ *********************************************/
     public void advanceOneDay() {
         if(endOfMonth()) {
             if(endOfYear()) {
@@ -143,13 +160,18 @@ public class CustomDate implements Comparable{
             day += 1;    
         }
     }
-
+/****************************************************************
+ * Advances week by one by advancing the day by one seven times
+ ***************************************************************/
     public void advanceOneWeek() {
         for(int i = 0; i < 7; i++) {
             advanceOneDay();
         }
     }
 
+/****************************************
+ * @return if two objects are equal
+ **************************************/
     @Override
     public boolean equals(Object obj) {
 
@@ -165,7 +187,10 @@ public class CustomDate implements Comparable{
         CustomDate cd = (CustomDate) obj;
         return cd.getDay() == this.day && cd.getMonth() == this.month && cd.getYear() == this.year;
     }
-    
+
+/*******************************************
+ * @return comparison of two objects
+ *****************************************/
     @Override
     public int compareTo(Object obj) {
         final int LESS = -1;
@@ -206,7 +231,7 @@ public class CustomDate implements Comparable{
   @Override
     public String toString() {
         String output;
-        output = "SimpleDate: " + month + "\\"+ day;
+        output = "CustomDate: " + month + "\\"+ day;
         output  = output + "\\"+ year + "\n";
         return output;
     }
