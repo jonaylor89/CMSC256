@@ -176,7 +176,7 @@ public class CustomDate implements Comparable{
     public boolean equals(Object obj) {
 
         if(this == obj) {
-            return EQUAL; 
+            return true; 
         }
 
         if(obj == null) {
@@ -202,7 +202,7 @@ public class CustomDate implements Comparable{
         }
 
         if(obj == null) {
-            return false; 
+            return -1; 
         }
 
         CustomDate cd = (CustomDate) obj;
