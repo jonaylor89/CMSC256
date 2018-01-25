@@ -261,9 +261,7 @@ public class CustomDate implements Comparable{
   *****************************************************************/
   @Override
     public String toString() {
-        String output;
-        output = "CustomDate: " + month + "\\"+ day;
-        output  = output + "\\"+ year + "\n";
+        String output = String.format("%02d/%02d/%04d", month, day, year);
         return output;
     }
 }
