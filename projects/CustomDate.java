@@ -125,6 +125,7 @@ public class CustomDate implements Comparable{
                     return true; 
                 }
             }
+            return true;
         }
 
         return false;
