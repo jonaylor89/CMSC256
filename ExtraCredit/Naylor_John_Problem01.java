@@ -7,11 +7,11 @@ public class Naylor_John_Problem01 {
         Scanner userInput = new Scanner(System.in);
 
         int numberOfTextbooks = userInput.nextInt();
-        int max = 0;
-        int min = 10000;
+        double max = 0;
+        double min = 10000;
 
         for (int i = 0; i < numberOfTextbooks; i++) {
-            int nextTextbook = userInput.nextInt();
+            double nextTextbook = userInput.nextDouble();
             if (nextTextbook > max) {
                 max = nextTextbook; 
             }
@@ -21,7 +21,7 @@ public class Naylor_John_Problem01 {
             }
         }
 
-        System.out.println(max - min);
+        System.out.printf("%.2f\n", max - min);
 
     }
 }
