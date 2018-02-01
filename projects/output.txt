@@ -1,0 +1,51 @@
+
+Test instantiation and validity:
+ Valid Dates:  [02/03/2018, 12/31/2018, 01/01/2019, 02/28/2008, 02/29/2008, 02/28/2009, 01/01/2019, null, null]
+Testing constructor with invalid dates:  
+Invalid Date
+Dates created are:  [02/03/2018, 12/31/2018, 01/01/2019, 02/28/2008, 02/29/2008, 02/28/2009, 01/01/2019, 02/29/2009, null]
+
+Test toString method:
+02/03/2018
+12/31/2018
+01/01/2019
+02/28/2008
+02/29/2008
+02/28/2009
+01/01/2019
+02/29/2009
+
+Test advanceOneDay method:
+02/04/2018
+01/01/2019
+01/02/2019
+02/29/2008
+03/01/2008
+03/01/2009
+01/02/2019
+02/30/2009
+
+Test advanceOneWeek method:
+02/11/2018
+01/08/2019
+01/09/2019
+03/07/2008
+03/08/2008
+03/08/2009
+01/09/2019
+02/37/2009
+
+Test equals method:
+01/08/2019 equals 01/09/2019: false
+01/08/2019 equals 01/08/2019: true
+01/09/2019 equals 01/09/2019: true
+
+Test isLeapYear method:
+2018 is a leap year - false
+2019 is a leap year - false
+2019 is a leap year - false
+2008 is a leap year - true
+2008 is a leap year - true
+2009 is a leap year - false
+2019 is a leap year - false
+2009 is a leap year - false

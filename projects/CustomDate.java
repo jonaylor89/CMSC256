@@ -27,9 +27,9 @@ public class CustomDate implements Comparable{
   ***********************************************************/
     public CustomDate(int aMonth, int aDay, int yr){
         if(isValidDate(aMonth, aDay, yr)){
-            setMonth(aMonth);
-            setDay(aDay);
-            setYear(yr);
+            year = yr;
+            day = aDay;
+            month = aMonth;
         } else {
             throw new IllegalArgumentException("Invalid Date");
         }
@@ -143,20 +143,25 @@ public class CustomDate implements Comparable{
             case 10:
             case 12:
                 NumDays = 31;
+                break;
             case 4:
             case 6:
             case 9:
             case 11:
                NumDays = 30; 
+               break;
             case 2:
                 if(isLeapYear()) {
-                    return NumDays = 29; 
+                    NumDays = 29; 
                 } else {
-                    return NumDays = 28; 
+                    NumDays = 28; 
                 } 
+                break;
             default:
                 throw new IllegalArgumentException("Invalid Month");
         }
+
+        return NumDays;
         
     }
 
