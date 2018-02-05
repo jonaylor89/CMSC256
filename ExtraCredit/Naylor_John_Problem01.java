@@ -2,8 +2,9 @@
 import java.util.Scanner;
 
 public class Naylor_John_Problem01 {
+    public static void main(String[] arguments) {}
     
-    public static void main(String[] argv) {
+    static {
         Scanner userInput = new Scanner(System.in);
 
         int numberOfTextbooks = userInput.nextInt();
