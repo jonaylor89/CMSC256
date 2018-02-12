@@ -17,9 +17,7 @@ public class Project2 {
 
         capitalistPig.fillEmployees("EmployeeIn.dat");
 
-        capitalistPig.parseUpdates("Updates.dat");
-
-        capitalistPig.printOut("EmployeeOut.dat");
+        capitalistPig.updateEmployees("Updates.dat", "EmployeeOut.dat");
 
         capitalistPig.printPayroll("HoursWorked.dat", "WeeklyPayroll.txt");
 

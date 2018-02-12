@@ -14,7 +14,7 @@ public class HourlyEmployee extends Employee {
     public double computePay(double hours) {
 
         if (hours > 40) {
-            return wage * (40 + 1.5 * (hours-40));
+            return getWage() * (40 + 1.5 * (hours-40));
         }
 
     }
@@ -24,7 +24,7 @@ public class HourlyEmployee extends Employee {
     */
     @Override
     public String toString() {
-        return String.format("%s, %s %f/hour", lastName, firstName, wage);
+        return String.format("%s, %s %f/hour", getLastName(), getFirstName(), getWage());
     }
 
 }

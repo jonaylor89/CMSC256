@@ -5,31 +5,28 @@ public class SalariedEmployee extends Employee {
     * 
     */
     public SalariedEmployee(String first, String last, double salary) {
-
-        double hourly = salary / (40.0 * 52.0);
-
-        super(first, last, hourly);
+        super(first, last, salary / (40.0 * 52.0));
     }
 
     /**
     * 
     */
     public double computePay(double hours) {
-        return wage * 52;
+        return getWage() * 52;
     }
 
     /**
     * 
     */
     public void setSalary(double salary) {
-        wage = salary / (40 * 52);
+        setWage(salary / (40 * 52));
     }
 
     /**
     * 
     */
     public double getSalary() {
-        return wage * (40 * 52);
+        return getWage() * (40 * 52);
     }
 
     /**
@@ -37,7 +34,7 @@ public class SalariedEmployee extends Employee {
     */
     @Override
     public String toString() {
-        return String.format("%s, %s %f/year", lastName, firstName, wage * (52 * 40));
+        return String.format("%s, %s %f/year", getLastName(), getFirstName(), getWage() * (52 * 40));
     }
 
 }
