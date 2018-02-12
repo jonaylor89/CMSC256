@@ -7,23 +7,27 @@
 
 public class Project2 {
 
+    /**
+    * 
+    */
     public static void main(String[] argv) {
         printHeading();
 
         PersonnelManager capitalistPig = new PersonnelManager();
 
-        capitalistPig.parseIn("EmployeeIn.dat");
+        capitalistPig.fillEmployees("EmployeeIn.dat");
 
         capitalistPig.parseUpdates("Updates.dat");
 
         capitalistPig.printOut("EmployeeOut.dat");
 
-        capitalistPig.parseHours("HoursWorked.dat");
-
-        capitalistPig.printPayroll("WeeklyPayroll.txt");
+        capitalistPig.printPayroll("HoursWorked.dat", "WeeklyPayroll.txt");
 
     }
 
+    /**
+    * 
+    */
     private static void printHeading() {
         System.out.println("John Naylor");
         System.out.println("2/10/18");
