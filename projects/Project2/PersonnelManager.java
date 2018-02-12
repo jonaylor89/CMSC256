@@ -13,7 +13,7 @@ public class PersonnelManager {
     */   
     public PersonnelManager() {
         employees = new Employee[1];
-        
+
     }
 
     /**
@@ -75,7 +75,7 @@ public class PersonnelManager {
                 case 'n':
                     String withComma = updates.next();
                     String lastName = withComma.substring(0, withComma.length()-2);
-                    newEmployee(lastName, updates.next(), updates.next().charAt(0), counter);
+                    newEmployee(lastName, updates.next(), updates.next().charAt(0), updates.nextInt(), counter);
                     break;
                 case 'd':
                     deleteEmployee(updates.next(), counter);
@@ -106,13 +106,14 @@ public class PersonnelManager {
     /**
      * 
      */
-    public void newEmployee(String lastName, String firstName, char indicator, int pay) {
+    public void newEmployee(String lastName, String firstName, char indicator, int pay, int lineNumber) {
 
         // Check if array is full
         if (employees[employees.length-1] != null) {
             employees = doubleArray(employees);
         }
 
+        // Find where the array is filled to
         int i = 0;
         while (employees[i] != null) {
             i++;
@@ -123,7 +124,7 @@ public class PersonnelManager {
         } else if (indicator == 's') {
             employees[i] = new SalariedEmployee(last, firstName, pay);
         } else {
-            invalidCode(i+1);
+            invalidCode(lineNumber);
         }
 
     }
