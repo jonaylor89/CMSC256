@@ -7,9 +7,11 @@
 
 public class Project2 {
 
-    /**
-    * 
-    */
+    /***********************************************************
+    * Fill up the employees array for a personnel manager;
+    * Updates all of the employees in it;
+    * Outputs their payroll to a txt file;
+    ***********************************************************/
     public static void main(String[] argv) {
         printHeading();
 
@@ -23,9 +25,9 @@ public class Project2 {
 
     }
 
-    /**
-    * 
-    */
+    /*******************************************
+    * Prints the project information to stdout
+    *******************************************/
     private static void printHeading() {
         System.out.println("John Naylor");
         System.out.println("2/10/18");
