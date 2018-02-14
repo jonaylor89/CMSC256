@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.io.PrintWriter;
@@ -25,7 +26,14 @@ public class PersonnelManager {
     * @param inFile A file name which contains all of the employees
     *********************************************************************/
     public void fillEmployees(String inFile) {
-        Scanner employeeIn = new Scanner(inFile);
+        Scanner employeeIn = null;
+        try {
+            employeeIn = new Scanner(new File(inFile));
+        } catch(FileNotFoundException e) {
+            System.out.println("[!!!] File not Found");
+            System.out.println(e);
+        }
+        employeeIn.useDelimiter("\\s+|, ");
         String lastName;
         String withComma;
         String firstName;
@@ -33,11 +41,10 @@ public class PersonnelManager {
         double pay;
 
         while (employeeIn.hasNextLine() && employeeIn.hasNext()) {
-            withComma = employeeIn.next();
-            lastName = withComma.substring(0, length-2); // Strip the comma off the last name
+            lastName = employeeIn.next();
             firstName = employeeIn.next();
             indicator = employeeIn.next().charAt(0);
-            pay = employeeIn.nextInt();
+            pay = employeeIn.nextDouble();
             
             // The `null` means that this employee is from the original inFile and not the update file
             newEmployee(null, lastName, firstName, indicator, pay, length+1);
@@ -53,7 +60,14 @@ public class PersonnelManager {
     * @param outputFile Name of the file to print the output
     *****************************************************************************************/
     public void updateEmployees(String updateFile, String outputFile) {
-        Scanner updates = new Scanner(updateFile);
+        Scanner updates = null;
+        try {
+            updates = new Scanner(new File(updateFile));
+            updates.useDelimiter("\\s+|, ");
+        } catch(FileNotFoundException e) {
+            System.out.println("[!!!] File not Found");
+            System.out.println(e);
+        }
         PrintWriter employeeOut = null;
         try {
             employeeOut = new PrintWriter(outputFile);
@@ -77,9 +91,7 @@ public class PersonnelManager {
             switch (update) {
                 case 'n':
                 case 'N':
-                    String withComma = updates.next();
-                    String lastName = withComma.substring(0, withComma.length()-2);
-                    newEmployee(newEmployees, lastName, updates.next(), updates.next().charAt(0), updates.nextDouble(), counter);
+                    newEmployee(newEmployees, updates.next(), updates.next(), updates.next().charAt(0), updates.nextDouble(), counter);
                     break;
                 case 'd':
                 case 'D':
@@ -100,19 +112,25 @@ public class PersonnelManager {
         }
 
         for (Employee employee : newEmployees) {
-            employeeOut.println("New Employee added: " + employee.getLastName() + ", " + employee.getFirstName());
+            if (employee != null){
+                employeeOut.println("New Employee added: " + employee.getLastName() + ", " + employee.getFirstName());
+            }
         }
 
         if (raise != 0) {
             employeeOut.println("New Wages:");
             for (Employee employee : employees) {
-                employee.setWage(employee.getWage() * (1.0 + (1.0/raise)));
-                employeeOut.println(employee);
+                if (employee != null) {
+                    employee.setWage(employee.getWage() * (1.0 + (1.0/raise)));
+                    employeeOut.println(employee);
+                }
             }
         }
 
         for (Employee employee : deletedEmployees) {
-            employeeOut.println("Deleted Employee: " + employee.getLastName() + ", " + employee.getFirstName());  
+            if (employee != null){
+                employeeOut.println("Deleted Employee: " + employee.getLastName() + ", " + employee.getFirstName());  
+            }
         }
 
         employeeOut.close();
@@ -141,9 +159,9 @@ public class PersonnelManager {
         maintainCapacity();
 
         if (indicator == 'h') {
-            employees[length] = new HourlyEmployee(lastName, firstName, pay);
+            employees[length] = new HourlyEmployee(firstName, lastName, pay);
         } else if (indicator == 's') {
-            employees[length] = new SalariedEmployee(lastName, firstName, pay);
+            employees[length] = new SalariedEmployee(firstName, lastName, pay);
         } else {
             invalidCode(lineNumber);
             valid = false;
@@ -166,7 +184,7 @@ public class PersonnelManager {
     * @param lastName The employee's last name
     *************************************************************************************************/
     private void deleteEmployee(List<Employee> deletedEmployees, String lastName) {
-        for (int i = employees.length; i < 0; i--) {
+        for (int i = 0; i < employees.length; i++) {
             if (employees[i].getLastName().equals(lastName)){
                 deletedEmployees.add(employees[i]);
                 employees[i] = employees[length-1];
@@ -192,23 +210,29 @@ public class PersonnelManager {
             System.out.println("[!!!] File not Found");
             System.out.println(e);
         }
-        Scanner hoursWorked = new Scanner(hoursFile);
+        Scanner hoursWorked = null;
+        try {
+            hoursWorked = new Scanner(new File(hoursFile));
+        } catch(FileNotFoundException e) {
+            System.out.println("[!!!] File not Found");
+            System.out.println(e);
+        }
 
         double total = 0;
         double pay;
         int hours;
         String lastName;
 
-        System.out.println("Paycheck amount:");
+        payroll.println("Paycheck amount:");
         while (hoursWorked.hasNextLine() && hoursWorked.hasNext()) {
 
             lastName = hoursWorked.next();
             hours = hoursWorked.nextInt();
 
             for (Employee employee : employees) {
-                if (lastName.equals(employee)) {
+                if (employee != null && lastName.equals(employee.getLastName())) {
                     pay = employee.computePay(hours);
-                    payroll.printf("%s, %s   $%f\n", employee.getLastName(), employee.getFirstName(), pay);
+                    payroll.printf("%s, %s   $%.2f\n", employee.getLastName(), employee.getFirstName(), pay);
                     total += pay;
                     break;
                 }
@@ -217,8 +241,8 @@ public class PersonnelManager {
         }
         
         // TODO: Fix Formatting
-        System.out.println("--------------");
-        System.out.println("Total $" + total);
+        payroll.println("--------------");
+        payroll.println("Total $" + total);
 
         hoursWorked.close();
         payroll.close();

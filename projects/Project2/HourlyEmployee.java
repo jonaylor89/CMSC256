@@ -28,12 +28,12 @@ public class HourlyEmployee extends Employee {
     ************************************************************/
     @Override
     public String toString() {
-        StringBuilder stringify = new StringBuffer();
+        StringBuilder stringify = new StringBuilder();
         stringify.append(getLastName());
         stringify.append(", ");
         stringify.append(getFirstName());
 
-        while (40 - (stringify.length() + String.format("$%f", getWage()).length()) > 0) {
+        while (40 - (stringify.length() + String.format("$%.2f", getWage()).length()) > 0) {
             stringify.append(" ");
         }
 
