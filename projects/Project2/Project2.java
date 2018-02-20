@@ -1,11 +1,13 @@
-/*****************************************
+/**********************************************************************
  * John Naylor
  * CMSC 256 Section 2 Spring
- * 
- * 
- ****************************************/
+ * CMSC256 Section 2 Spring
+ * Project 2: Program to manage employees like a true capitalist pig
+ ********************************************************************/
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.PrintWriter;
@@ -31,7 +33,7 @@ public class Project2 {
 
     }
 
-        /*********************************************************************
+    /*********************************************************************
     * Loops through every line in the input file and adds the employee
     * to the employees array
     * @param inFile A file name which contains all of the employees
@@ -50,18 +52,25 @@ public class Project2 {
         String firstName;
         char indicator;
         double pay;
-        int counter = 1;
+        String[] line;
 
         while (employeeIn.hasNextLine() && employeeIn.hasNext()) {
-            lastName = employeeIn.next();
-            firstName = employeeIn.next();
-            indicator = employeeIn.next().charAt(0);
-            pay = employeeIn.nextDouble();
+            line = employeeIn.nextLine().split("\\s+|, ");
+            try{
+                lastName = line[0];
+                firstName = line[1];
+                indicator = line[2].charAt(0);
+                pay = Double.valueOf(line[3]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            } catch (NumberFormatException e1) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            }
             
             // The `null` means that this employee is from the original inFile and not the update file
-            pm.newEmployee(null, lastName, firstName, indicator, pay, counter);
-
-            counter++;
+            pm.newEmployee(null, lastName, firstName, indicator, pay);
         }
 
         employeeIn.close();
@@ -91,6 +100,7 @@ public class Project2 {
 
         int counter = 1;
         int raise = 0;
+        String[] line;
 
         // ArrayList might be changed to something more effecient 
         ArrayList<Employee> deletedEmployees = new ArrayList<Employee>();
@@ -99,26 +109,53 @@ public class Project2 {
         char update;
 
         while (updates.hasNextLine() && updates.hasNext()) {
-            update = updates.next().charAt(0);
+            line = updates.nextLine().split("\\s+|, ");
+            update = line[0].charAt(0);
 
             switch (update) {
                 case 'n':
                 case 'N':
-                    pm.newEmployee(newEmployees, updates.next(), updates.next(), updates.next().charAt(0), updates.nextDouble(), counter);
+                    try{
+                        String lastName = line[1];
+                        String firstName = line[2];
+                        char indicator = line[3].charAt(0);
+                        double pay = Double.valueOf(line[4]);
+                        pm.newEmployee(newEmployees, lastName, firstName, indicator, pay);
+                    } catch (NumberFormatException e) {
+                        PersonnelManager.invalidCode(line);
+                        continue;
+                    } catch (IndexOutOfBoundsException e) {
+                        PersonnelManager.invalidCode(line);
+                        continue;
+                    }
                     break;
                 case 'd':
                 case 'D':
-                    pm.deleteEmployee(deletedEmployees, updates.next());
+                    try{
+                        pm.deleteEmployee(deletedEmployees, line[1]);
+                    } catch (IndexOutOfBoundsException e) {
+                        PersonnelManager.invalidCode(line);
+                        continue;
+                    }
                     break;
                 case 'r':
                 case 'R':
-                    int newRaise = updates.nextInt();
+                    int newRaise;
+                    try{
+                        newRaise = Integer.valueOf(line[1]);
+                    } catch (IndexOutOfBoundsException e) {
+                        PersonnelManager.invalidCode(line);
+                        continue;
+                    } catch (NumberFormatException e1) {
+                        PersonnelManager.invalidCode(line);
+                        continue;
+                    }
                     if (newRaise > raise) {
                         raise = newRaise;
                     }
                     break;
                 default:
-                    PersonnelManager.invalidCode(counter);
+                    PersonnelManager.invalidCode(line);
             }
 
             counter++;
@@ -168,13 +205,29 @@ public class Project2 {
 
         double total = 0;
         int hours;
-        String lastName;
+        String lastName = null;
+        String[] line;
 
         payroll.println("Paycheck amount:");
         while (hoursWorked.hasNextLine() && hoursWorked.hasNext()) {
+            line = hoursWorked.nextLine().split("\\s+|, ");
 
-            lastName = hoursWorked.next();
-            hours = hoursWorked.nextInt();
+            try{
+                lastName = line[0];
+                hours = Integer.valueOf(line[1]);
+            } catch (InputMismatchException e0) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            } catch (NoSuchElementException e1) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            } catch (NumberFormatException e2) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            } catch (ArrayIndexOutOfBoundsException e3) {
+                PersonnelManager.invalidCode(line);
+                continue;
+            }
 
             payroll.println(pm.employeePayroll(lastName, hours));
             total += pm.employeeComputePay(lastName, hours);
@@ -197,6 +250,6 @@ public class Project2 {
         System.out.println("John Naylor");
         System.out.println("2/10/18");
         System.out.println("CMSC256 Section 2 Spring");
-        System.out.println("Project 2: Program to manage employees like a true capitalist pig");
+        System.out.println("Project 2: Program to manage employees");
     }
 }

@@ -35,8 +35,7 @@ public class PersonnelManager {
                             String lastName, 
                             String firstName, 
                             char indicator, 
-                            double pay, 
-                            int lineNumber) {
+                            double pay) {
 
         boolean valid = true;
 
@@ -47,7 +46,7 @@ public class PersonnelManager {
         } else if (indicator == 's') {
             employees[length] = new SalariedEmployee(firstName, lastName, pay);
         } else {
-            invalidCode(lineNumber);
+            invalidCode(lastName, firstName, indicator, pay);
             valid = false;
             length--; // Since a new employee wouldn't be added, the length global variable shouldn't increment
         }
@@ -69,7 +68,7 @@ public class PersonnelManager {
     *************************************************************************************************/
     public void deleteEmployee(List<Employee> deletedEmployees, String lastName) {
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getLastName().equals(lastName)){
+            if (employees[i] != null && employees[i].getLastName().equals(lastName)) {
                 deletedEmployees.add(employees[i]);
                 employees[i] = employees[length-1];
                 employees[length-1] = null;
@@ -81,6 +80,10 @@ public class PersonnelManager {
         System.out.println("[!!!] Cannot delete " + lastName); // Error message
     }
 
+    /*******************************************************
+     * Gives a raise to every employee
+     * @param percentage The percentage for the raise
+     ********************************************************/
     public void giveRaise(int percentage) {
         for (Employee employee : employees) {
             if (employee != null) {
@@ -89,6 +92,10 @@ public class PersonnelManager {
         }
     }
 
+    /**************************************************************
+     * Prints all of the employee's the a specifiedd printwriter
+     * @param pw The file-like object to print the employee's too
+     *************************************************************/
     public void printEmployees(PrintWriter pw) {
 
         for (Employee employee : employees) {
@@ -98,9 +105,12 @@ public class PersonnelManager {
         }
     }
 
-    /**
-     * 
-     */
+    /**********************************************************
+     * Returns a string containing the employee's payroll
+     * @param lastName The last name of the employee
+     * @param hours The hours the employee worked
+     * @return Formatted string of the employee's payroll
+     ********************************************************/
     public String employeePayroll(String lastName, int hours) {
         double pay;
         for (Employee employee : employees) {
@@ -115,6 +125,12 @@ public class PersonnelManager {
         return "";
     }
 
+    /*******************************************************
+     * Returns the employee's pay
+     * @param lastName The last name of the employee
+     * @param hours The hours the employee worked
+     * @return The employee's pay
+     *****************************************************/
     public double employeeComputePay(String lastName, int hours) {
         for (Employee employee : employees) {
             if (employee != null && lastName.equals(employee.getLastName())) {
@@ -129,7 +145,7 @@ public class PersonnelManager {
     * Ensures the global employees array isn't full
     * If the array does happen to be full it is doubled in size
     ***********************************************************/
-    public void maintainCapacity() {
+    private void maintainCapacity() {
         if (length == employees.length-1) {
             employees = doubleArray(employees);
         }
@@ -141,6 +157,26 @@ public class PersonnelManager {
     ***********************************************************************/
     public static void invalidCode(int lineNumber) {
         System.out.println("Command was not recognized; <" + lineNumber + ">");
+    }
+
+    public static void invalidCode(String last, String first, char indicator, double pay) {
+        System.out.printf("Command was not recognized; <%s, %s %c %f>\n", last, first, indicator, pay);
+    }
+
+    public static void invalidCode(char indicator, String rest) {
+        System.out.printf("Command was not recognized; <%c %s>\n", indicator, rest);
+    }
+
+    public static void invalidCode(String rest) {
+        System.out.printf("Command was not recognized; <%s>\n", rest);
+    }
+
+    public static void invalidCode(String[] line) {
+        System.out.printf("Command was not recognized; <");
+        for (String s : line) {
+            System.out.printf("%s ", s);
+        }
+        System.out.println(">");
     }
 
     /***************************************************
@@ -157,6 +193,12 @@ public class PersonnelManager {
         return bigArray;
     }
 
+    /******************************************************************************************
+     * Ensures that the lenth of a string is 40 character
+     * @param one The string on the left
+     * @param two The string on the far right
+     * @return Two string concatenated with enough spaces between them for 40 characters
+     ********************************************************************************************/
     public static String fortyCharacters(String one, String two) {
         StringBuilder totalString = new StringBuilder();
         totalString.append(one);
