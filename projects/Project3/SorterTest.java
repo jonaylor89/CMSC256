@@ -1,7 +1,15 @@
-
+/**************************************
+ * John Naylor
+ * CMSC 256 Section 2
+ * Project 3 Sorter
+ * Test the sorter class
+ ***************************************/
 public class SorterTest {
     public static void main(String[] args) {
-        int[] array = Sorter.sortIntArray(new int[]{3, 2, 1});
+
+        int[] array;
+
+        array = Sorter.sortIntArray(new int[]{3, 2, 1});
         for (int i = 0; i < array.length; i++) {
             System.out.print(array[i] + ", ");
         }
