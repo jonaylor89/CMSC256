@@ -14,9 +14,17 @@ public class Sorter {
      ********************************************************/
     public static int[] sortIntArray(int[] initial) {
 
-        // Find max
+        if (initial == null) {
+            throw new IllegalArgumentException("Array cannot be null");
+        }
+
+        // Find max and check for negatives
         int max = 0;
         for (int i = 0; i < initial.length; i++) {
+            if (initial[i] < 0) {
+                throw new IllegalArgumentException("Negative number in array");
+            } 
+
             if (initial[i] > max) {
                 max = initial[i];
             }
