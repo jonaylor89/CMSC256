@@ -4,28 +4,41 @@
  * Project 3 Sorter
  * Test the sorter class
  ***************************************/
+import org.junit.Test;
+import org.junit.Assert.assertEquals;
+
 public class SorterTest {
-    public static void main(String[] args) {
 
-        int[] array;
+    @Test
+    public static void testSort1() {
 
-        array = Sorter.sortIntArray(new int[]{3, 2, 1});
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + ", ");
-        }
+        int[] initial = new int[]{3, 2, 1};
 
-        System.out.println();
+        int[] array = Sorter.sortIntArray(initial);
 
-        array = Sorter.sortIntArray(new int[]{1, 2, 3, 4, 3, 6, 3, 5, 10});
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + ", ");
-        }
+        assertEquals("First Test", array, new int[]{1, 2, 3});
 
-        System.out.println();
+    }
 
-        array = Sorter.sortIntArray(new int[]{3, 2, 1, 5, 2, 6, 1});
-        for (int i = 0; i < array.length; i++) {
-            System.out.print(array[i] + ", ");
-        }
+    @Test
+    public static void testSort2() {
+
+        int[] initial = new int[]{3, 2, 1, 5, 2, 6, 1};
+
+        int[] array = Sorter.sortIntArray(initial);
+
+        assertEquals("Second Test", array, new int[]{1, 1, 2, 2, 3, 5, 6});
+
+    }
+
+    @Test
+    public static void testSort3() {
+
+        int[] initial = new int[]{1, 2, 3, 4, 3, 6, 3, 5, 10};
+
+        int[] array = Sorter.sortIntArray(initial);
+
+        assertEquals("Third Test", array, 1, 2, 3, 3, 3, 4, 5, 10);
+
     }
 }
