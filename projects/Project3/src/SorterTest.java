@@ -1,10 +1,23 @@
+/*****************************************************
+ * John Naylor
+ * CMSC 256 Section 2
+ * Project 3 Sorter
+ * Test method to sort integer arrays using a counter
+ ***************************************************/
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 import java.util.Arrays;
 
+/**************************
+ * JUnit test cases
+ *************************/
 public class SorterTest {
 
+    /***************************
+     * Test empty array
+     **************************/
 	@Test
     public void testEmpty() {
 
@@ -16,6 +29,9 @@ public class SorterTest {
 
     }
 
+    /**************************
+     * Test backwards array
+     *************************/
     @Test
     public void testSort() {
 
@@ -27,6 +43,9 @@ public class SorterTest {
 
     }
 
+    /***********************
+     * Test random order
+     **********************/
     @Test
     public void testRandom() {
 
@@ -38,6 +57,9 @@ public class SorterTest {
 
     }
 
+    /***********************
+     * Test duplicate items
+     **********************/
     @Test
     public void testDuplicate() {
 
@@ -49,6 +71,9 @@ public class SorterTest {
 
     }
 
+    /***********************
+     * Test null array
+     **********************/
     @Test(expected = IllegalArgumentException.class)
     public void testNull() {
 
@@ -58,6 +83,9 @@ public class SorterTest {
 
     }
 
+    /**************************
+     * Test negative numbers
+     *************************/
     @Test(expected = IllegalArgumentException.class)
     public void testNegative() {
         int[] initial = new int[]{-1, -2, -3, -4, -3, -6, -3, -5, -10};
