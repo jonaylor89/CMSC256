@@ -65,6 +65,7 @@ public class SongReader {
         }
 
         fileInput.close();
+        error.close();
 
         for (Song s : songList) {
             System.out.println(s);
@@ -102,9 +103,8 @@ public class SongReader {
                             error.println("Error: Album not provided");
                         }
                         break;
-                    default:
-                        
-                        error.println("Syntax Error: " + curToken);
+                    default: 
+                        error.println("Syntax Error: " + curToken);   // TODO: Make this better
                         break;
                 }
             }
