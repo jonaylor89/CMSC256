@@ -1,11 +1,11 @@
 /**************************************************
  * John Naylor
- * CMSC 256 Section 2 
+ * CMSC 256 Section 2 Spring
  * Project 4 Song project
  * Class to excapsulate details about songs
  ***********************************************/
 
-public class Song implements Comparable{
+public class Song implements Comparable {
 
     private String album;
     private String title;
@@ -69,7 +69,17 @@ public class Song implements Comparable{
      **************************************/
     @Override
     public boolean equals(Object obj) {
-        return true;                                              // TODO 
+        if (obj == null) {
+            return false;
+        }
+
+        Song s = (Song) obj;
+
+        if (this.title == s.title && this.album == s.title && this.artist == s.artist) {
+            return true;
+        }
+
+        return false;                               
     }
 
     /***********************************************
@@ -77,7 +87,7 @@ public class Song implements Comparable{
      ***********************************************/
     @Override
     public String toString() {
-        return "";                                                // TODO
+        return String.format("%s-%s-%s", artist, album, title);
     }
 
     /**************************************
@@ -87,7 +97,5 @@ public class Song implements Comparable{
     public int compareTo(Object obj) {
         return 0;                                                // TODO
     }
-
-
 
 }
