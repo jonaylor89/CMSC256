@@ -1,9 +1,9 @@
-/*********************************
+/**************************************************
  * John Naylor
  * CMSC 256 Section 2 
  * Project 4 Song project
- * 
- *******************************/
+ * Class to excapsulate details about songs
+ ***********************************************/
 
 public class Song implements Comparable{
 
