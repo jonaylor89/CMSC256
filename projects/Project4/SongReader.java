@@ -56,11 +56,16 @@ public class SongReader {
 
         while(fileInput.hasNextLine() && fileInput.hasNext()) {
             String curToken = fileInput.next();
+            StringBuilder errorString = new StringBuilder();
             
             if (curToken.equals("<song>")) {
+                if (errorString.length() != 0) {
+                    error.println("Syntax Error <<" + errorString.toString().trim() + ">> is outside a song tag");
+                    errorString.setLength(0);
+                }
                 parseSong();
             } else {
-                error.println("Syntax Error: " + curToken);
+                errorString.append(curToken + " ");
             }
         }
 
@@ -69,6 +74,7 @@ public class SongReader {
 
         for (Song s : songList) {
             System.out.println(s);
+            System.out.println();
         }
     }
 
@@ -78,38 +84,72 @@ public class SongReader {
      ********************************************************************************/
     public static void parseSong() {
         String curToken;
+        boolean songError = false;
         String artist = "";
         String title = "";
         String album = "";
 
+        StringBuilder errorString = new StringBuilder();
+
         try {
-            while (!(curToken = fileInput.next()).equals("</song>")) {
-                switch (curToken) {
-                    case "<artist>":
-                        artist = parseArtist();
-                        if (artist.equals("")) {
-                            error.println("Error: Artist not provided");
-                        }
-                        break;
-                    case "<title>":
-                        title = parseTitle();
-                        if (title.equals("")) {
-                            error.println("Error: Title not provided");
-                        }
-                        break;
-                    case "<album>":
-                        album = parseAlbum();
-                        if (album.equals("")) {
-                            error.println("Error: Album not provided");
-                        }
-                        break;
-                    default: 
-                        error.println("Syntax Error: " + curToken);   // TODO: Make this better
-                        break;
+            while (fileInput.hasNext() && !(curToken = fileInput.next()).equals("</song>")) {
+
+                try {
+                    switch (curToken) { 
+                        case "<artist>":
+
+                            if (errorString.length() != 0) {
+                                error.println("Syntax Error << " + errorString.toString().trim() + " >> is outside a proper tag");
+                                errorString.setLength(0);
+                            }
+
+                            artist = parseArtist();
+                            if (artist.equals("")) {
+                                error.println("Error: Artist not provided");
+                            }
+                            break;
+                        case "<title>":
+
+                            if (errorString.length() != 0) {
+                                error.println("Syntax Error << " + errorString.toString().trim() + " >> is outside a proper tag");
+                                errorString.setLength(0);
+                            }
+
+                            title = parseTitle();
+                            if (title.equals("")) {
+                                error.println("Error: Title not provided");
+                            }
+                            break;
+                        case "<album>":
+
+                            if (errorString.length() != 0) {
+                                error.println("Syntax Error << " + errorString.toString().trim() + " >> is outside a proper tag");
+                                errorString.setLength(0);
+                            }
+
+                            album = parseAlbum();
+                            if (album.equals("")) {
+                                error.println("Error: Album not provided");
+                            }
+                            break;
+                        default: 
+                            errorString.append(curToken + " ");
+                            break;
+                    }
+                } catch (NoSuchElementException e) {
+                    error.println(e.getMessage());
+                    songError = true;
                 }
             }
 
-            songList.add(new Song(album, title, artist));
+            if (errorString.length() != 0) {
+                error.println("Syntax Error << " + errorString.toString().trim() + " >> is outside a proper tag");
+                errorString.setLength(0);
+            }
+
+            if (!songError){
+                songList.add(new Song(album.trim(), title.trim(), artist.trim()));
+            }
         } catch (NoSuchElementException e) {
             error.println("Missing ending </song> tag");
         }
@@ -122,23 +162,21 @@ public class SongReader {
         String curToken;
         StringBuilder retval = new StringBuilder(" ");
 
-        try {
-            while (!(curToken = fileInput.next()).equals("</artist>")) {
-                if (curToken.equals("<artist>")) {
-                    parseArtist();
-                    error.println("Syntax Error: " + curToken + " in artist tag");
-                } else if (curToken.equals("<title>")) {
-                    parseTitle();
-                    error.println("Syntax Error: " + curToken + " in artist tag");
-                } else if (curToken.equals("<album>")) {
-                    parseAlbum();
-                    error.println("Syntax Error: " + curToken + " in artist tag");
-                } else {
-                    retval.append(curToken + " ");
-                }
+        while (!(curToken = fileInput.next()).equals("</artist>")) {
+            if (curToken.equals("<artist>")) {
+                parseArtist();
+                error.println("Syntax Error: " + curToken + " in artist tag");
+            } else if (curToken.equals("<title>")) {
+                parseTitle();
+                error.println("Syntax Error: " + curToken + " in artist tag");
+            } else if (curToken.equals("<album>")) {
+                parseAlbum();
+                error.println("Syntax Error: " + curToken + " in artist tag");
+            } else if (curToken.equals("</song>")) {
+                throw new NoSuchElementException("No ending artist tag");
+            } else {
+                retval.append(curToken + " ");
             }
-        } catch (NoSuchElementException e) {
-            error.println("Missing ending </artist> tag");
         }
 
         return retval.toString();
@@ -151,24 +189,23 @@ public class SongReader {
         String curToken;
         StringBuilder retval = new StringBuilder(" ");
 
-        try {
-            while (!(curToken = fileInput.next()).equals("</title>")) {
-                if (curToken.equals("<artist>")) {
-                    parseArtist();
-                    error.println("Syntax Error: " + curToken + " in title tag");
-                } else if (curToken.equals("<title>")) {
-                    parseTitle();
-                    error.println("Syntax Error: " + curToken + " in title tag");
-                } else if (curToken.equals("<album>")) {
-                    parseAlbum();
-                    error.println("Syntax Error: " + curToken + " in title tag");
-                } else {
-                    retval.append(curToken + " ");
-                }
+        while (!(curToken = fileInput.next()).equals("</title>")) {
+            if (curToken.equals("<artist>")) {
+                parseArtist();
+                error.println("Syntax Error: " + curToken + " in title tag");
+            } else if (curToken.equals("<title>")) {
+                parseTitle();
+                error.println("Syntax Error: " + curToken + " in title tag");
+            } else if (curToken.equals("<album>")) {
+                parseAlbum();
+                error.println("Syntax Error: " + curToken + " in title tag");
+            } else if (curToken.equals("</song>")) {
+                throw new NoSuchElementException("No ending title tag");
+            } else {
+                retval.append(curToken + " ");
             }
-        } catch (NoSuchElementException e) {
-            error.println("Missing ending </title> tag");
         }
+
         return retval.toString();
     }
 
@@ -189,6 +226,8 @@ public class SongReader {
             } else if (curToken.equals("<album>")) {
                 parseAlbum();
                 error.println("Syntax Error: " + curToken + " in album tag");
+            } else if (curToken.equals("</song>")) {
+                throw new NoSuchElementException("No ending album tag");
             } else {
                 retval.append(curToken + " ");
             }

@@ -26,21 +26,33 @@ public class Song implements Comparable {
      * @param album the album to set
      ***********************************/
     public void setAlbum(String album) {
-        this.album = album;
+        if (!album.equals(""))
+            this.album = album;
+        else {
+            this.album = "unknown";
+        }
     }
 
     /*************************************
      * @param artist the artist to set
      ************************************/
     public void setArtist(String artist) {
-        this.artist = artist;
+        if (!artist.equals(""))
+            this.artist = artist;
+        else {
+            this.artist = "unknown";
+        }
     }
 
     /***********************************
      * @param title the title to set
      **********************************/
     public void setTitle(String title) {
-        this.title = title;
+        if (!title.equals(""))
+            this.title = title;
+        else {
+            this.album = "unknown";
+        }
     }
 
     /**************************
@@ -87,7 +99,7 @@ public class Song implements Comparable {
      ***********************************************/
     @Override
     public String toString() {
-        return String.format("%s-%s-%s", artist, album, title);
+        return String.format("Title: %s \nArtist: %s \nAlbum: %s", artist, album, title);
     }
 
     /**************************************

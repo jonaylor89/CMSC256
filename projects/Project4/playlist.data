@@ -73,3 +73,18 @@
       Iron & Wine
     </artist>
 </song>
+
+<song>
+  <album>
+    Kiss Each Other Clean
+  </album>
+  <title>
+    Half Moon
+  </title>
+  <artist>
+    Iron & Wine
+  </artist>
+  <playcount>
+    13
+  </playcount>
+</song>
