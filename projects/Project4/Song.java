@@ -77,7 +77,7 @@ public class Song implements Comparable {
     }
 
     /***************************************
-     * @return If two songs are easier
+     * @return If two songs are equal
      **************************************/
     @Override
     public boolean equals(Object obj) {
@@ -107,7 +107,33 @@ public class Song implements Comparable {
      *************************************/
     @Override
     public int compareTo(Object obj) {
-        return 0;                                                // TODO
+
+        if(this == obj) {
+            return 0; 
+        }
+
+        if(obj == null) {
+            return -1; 
+        }
+
+        Song other = (Song) obj;
+
+        if (this.album.compareTo(other.getArtist()) != 0) {
+            return this.album.compareTo(other.getArtist());
+        }
+
+        if (this.album.compareTo(other.getAlbum()) != 0) {
+            return this.album.compareTo(other.getAlbum());
+        }
+
+        if (this.album.compareTo(other.getTitle()) != 0) {
+            return this.album.compareTo(other.getTitle());
+        }
+
+        // Check to make sure everything is working
+        assert this.equals(other) : "compareTo inconsistent with equals.";
+
+        return 0;
     }
 
 }
