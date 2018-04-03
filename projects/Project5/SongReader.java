@@ -22,6 +22,7 @@ public class SongReader {
     public SongReader(Iterator<String> input, PrintWriter error) throws FileNotFoundException {
         this.input = input;
         this.error = error;
+        errorString = new StringBuilder();
     }
 
     /**********************************************************************************
@@ -101,7 +102,7 @@ public class SongReader {
         errorString.setLength(0);
 
         if (!criticalError){
-            return new MySong(album.trim(), title.trim(), artist.trim(), playcount);
+            return new MySong(title, album, artist, playcount);
         }
 
         return null;
@@ -136,7 +137,7 @@ public class SongReader {
         errorString.append("\n");
         errorString.append(curToken);
         errorString.append("\n");
-        return retval.toString();
+        return retval.toString().trim();
     }
     
     /*******************************************************
@@ -168,7 +169,7 @@ public class SongReader {
         errorString.append("\n");
         errorString.append(curToken);
         errorString.append("\n");
-        return retval.toString();
+        return retval.toString().trim();
     }
 
     /*********************************************************
@@ -200,7 +201,8 @@ public class SongReader {
         errorString.append("\n");
         errorString.append(curToken);
         errorString.append("\n");
-        return retval.toString();
+
+        return retval.toString().trim();
     }
 
     public String parsePlaycount() {
@@ -229,6 +231,6 @@ public class SongReader {
         errorString.append("\n");
         errorString.append(curToken);
         errorString.append("\n");
-        return retval.toString();
+        return retval.toString().trim();
     }
 }
