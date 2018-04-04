@@ -3,7 +3,7 @@
  * CMSC 256, Section 2
  * Project 5 - Music Manager
  * Lex a xml-like file into MySong objects
- *******************************************/\
+ *******************************************/
 
 public class MySong extends Song implements Comparable{
 
