@@ -102,7 +102,11 @@ public class MusicManager {
                     }
                 }
 
-                songList = songList.parallelStream().sorted(Comparator.comparing(MySong::getAlbum).thenComparing(MySong::getTitle)).collect(Collectors.toList());
+                songList = songList.parallelStream()
+                                    .sorted(Comparator
+                                            .comparing(MySong::getAlbum)
+                                            .thenComparing(MySong::getTitle))
+                                    .collect(Collectors.toList());
 
                 for (MySong s : songList) {
                     System.out.println(s);

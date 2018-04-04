@@ -3,13 +3,14 @@
  * CMSC 256, Section 2
  * Project 5 - Music Manager
  * Lex a xml-like file into MySong objects
- *******************************************/
+ *******************************************/\
+
 public class MySong extends Song implements Comparable{
 
     private int playcount;
 
     public MySong(String title, String album, String artist, int playcount) {
-        super(album, title, artist);
+        super(title, album, artist);
 
         this.playcount = playcount;
     }
@@ -33,7 +34,7 @@ public class MySong extends Song implements Comparable{
      ***********************************************/
     @Override
     public String toString() {
-        return String.format("Title: %s \nArtist: %s \nAlbum: %s \nPlaycount: %d", getArtist(), getAlbum(), getTitle(), playcount);
+        return String.format("Title: %s \nArtist: %s \nAlbum: %s \nPlaycount: %d", getTitle(), getArtist(), getAlbum(), playcount);
     }
 
     @Override

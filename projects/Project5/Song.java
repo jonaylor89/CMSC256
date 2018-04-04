@@ -16,7 +16,7 @@ public class Song implements Comparable {
      * @param title The song's title
      * @param artist The song's artist
      **************************************/
-    public Song(String album, String title, String artist) {
+    public Song(String title, String album, String artist) {
         setAlbum(album);
         setTitle(title);
         setArtist(artist);
@@ -26,7 +26,7 @@ public class Song implements Comparable {
      * @param album the album to set
      ***********************************/
     public void setAlbum(String album) {
-        if (!album.equals(""))
+        if (album != null && !album.equals(""))
             this.album = album;
         else {
             this.album = "unknown";
@@ -37,7 +37,7 @@ public class Song implements Comparable {
      * @param artist the artist to set
      ************************************/
     public void setArtist(String artist) {
-        if (!artist.equals(""))
+        if (album != null && !artist.equals(""))
             this.artist = artist;
         else {
             this.artist = "unknown";
@@ -48,7 +48,7 @@ public class Song implements Comparable {
      * @param title the title to set
      **********************************/
     public void setTitle(String title) {
-        if (!title.equals(""))
+        if (album != null && !title.equals(""))
             this.title = title;
         else {
             this.album = "unknown";
