@@ -5,9 +5,14 @@
  * Lex a xml-like file into MySong objects
  ********************************************/
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.Scanner;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
@@ -43,7 +48,7 @@ public class MusicManager {
             System.exit(1);
         }
 
-        ArrayList<MySong> songList = new ArrayList<MySong>();
+        List<MySong> songList = new ArrayList<MySong>();
 
         while (fileInput.hasNextLine() && fileInput.hasNext()) {
             String curToken = fileInput.next();
@@ -66,7 +71,7 @@ public class MusicManager {
 
         Collections.sort(songList, Collections.reverseOrder());
 
-        switch (option2) {
+        switch (option1) {
             case "1":
                 if (songList.size() > 10) {
                     for (int i = 0; i < 10; i++) {
@@ -90,12 +95,20 @@ public class MusicManager {
 
                 System.out.println("No");
                 break;
-            case "3":                                            // TODO: Third case needs some more work
+            case "3":
                 for (MySong s : songList) {
-                    if (s.getArtist().equals(option2)) {
-                        System.out.println(s);
+                    if (!s.getArtist().equals(option2)) {
+                        songList.remove(s);
                     }
                 }
+
+                songList = songList.parallelStream().sorted(Comparator.comparing(MySong::getAlbum).thenComparing(MySong::getTitle)).collect(Collectors.toList());
+
+                for (MySong s : songList) {
+                    System.out.println(s);
+                    System.out.println();
+                }
+
                 break;
         }
 

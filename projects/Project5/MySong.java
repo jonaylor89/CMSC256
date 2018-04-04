@@ -9,7 +9,7 @@ public class MySong extends Song implements Comparable{
     private int playcount;
 
     public MySong(String title, String album, String artist, int playcount) {
-        super(title, album, artist);
+        super(album, title, artist);
 
         this.playcount = playcount;
     }
