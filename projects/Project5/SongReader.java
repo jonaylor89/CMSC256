@@ -12,9 +12,11 @@ import java.io.FileNotFoundException;
 
 public class SongReader {
 
-    private static PrintWriter error;
-    private static StringBuilder errorString;
-    private static Iterator<String> input;
+    private PrintWriter error;
+    private StringBuilder errorString;
+    private boolean songError;
+    private boolean criticalError;
+    private Iterator<String> input;
 
     /*********************************************************************
      * Contructor initializes input interator and error output file
@@ -31,8 +33,8 @@ public class SongReader {
      ********************************************************************************/
     public MySong parseSong() {
         String curToken;
-        boolean songError = false;
-        boolean criticalError = false;
+        songError = false;
+        criticalError = false;
         String artist = "";
         String title = "";
         String album = "";
@@ -102,6 +104,7 @@ public class SongReader {
         errorString.setLength(0);
 
         if (!criticalError){
+            if (title == null) { System.out.println("WTF?!?!?"); }
             return new MySong(title, album, artist, playcount);
         }
 
@@ -118,15 +121,19 @@ public class SongReader {
         errorString.append("\t");
 
         while (!(curToken = input.next()).equals("</artist>")) {
-            errorString.append(curToken);
+            errorString.append(curToken + " ");
             if (curToken.equals("<artist>")) {
                 parseArtist();
+                songError = true;
             } else if (curToken.equals("<title>")) {
                 parseTitle();
+                songError = true;
             } else if (curToken.equals("<album>")) {
                 parseAlbum();
+                songError = true;
             } else if (curToken.equals("<playcount>")) {
                 parsePlaycount();
+                songError = true;
             } else if (curToken.equals("</song>")) {
                 throw new NoSuchElementException("No ending artist tag");
             } else {
@@ -135,7 +142,7 @@ public class SongReader {
         }
 
         errorString.append("\n");
-        errorString.append(curToken);
+        errorString.append(curToken + " ");
         errorString.append("\n");
         return retval.toString().trim();
     }
@@ -150,15 +157,19 @@ public class SongReader {
         errorString.append("\t");
 
         while (!(curToken = input.next()).equals("</title>")) {
-            errorString.append(curToken);
+            errorString.append(curToken + " ");
             if (curToken.equals("<artist>")) {
                 parseArtist();
+                songError = true;
             } else if (curToken.equals("<title>")) {
                 parseTitle();
+                songError = true;
             } else if (curToken.equals("<album>")) {
                 parseAlbum();
+                songError = true;
             } else if (curToken.equals("<playcount>")) {
                 parsePlaycount();
+                songError = true;
             } else if (curToken.equals("</song>")) {
                 throw new NoSuchElementException("No ending artist tag");
             } else {
@@ -167,7 +178,7 @@ public class SongReader {
         }
 
         errorString.append("\n");
-        errorString.append(curToken);
+        errorString.append(curToken + " ");
         errorString.append("\n");
         return retval.toString().trim();
     }
@@ -182,15 +193,19 @@ public class SongReader {
         errorString.append("\t");
 
         while (!(curToken = input.next()).equals("</album>")) {
-            errorString.append(curToken);
+            errorString.append(curToken + " ");
             if (curToken.equals("<artist>")) {
                 parseArtist();
+                songError = true;
             } else if (curToken.equals("<title>")) {
                 parseTitle();
+                songError = true;
             } else if (curToken.equals("<album>")) {
                 parseAlbum();
+                songError = true;
             } else if (curToken.equals("<playcount>")) {
                 parsePlaycount();
+                songError = true;
             } else if (curToken.equals("</song>")) {
                 throw new NoSuchElementException("No ending artist tag");
             } else {
@@ -199,7 +214,7 @@ public class SongReader {
         }
 
         errorString.append("\n");
-        errorString.append(curToken);
+        errorString.append(curToken + " ");
         errorString.append("\n");
 
         return retval.toString().trim();
@@ -212,15 +227,19 @@ public class SongReader {
         errorString.append("\t");
 
         while (!(curToken = input.next()).equals("</playcount>")) {
-            errorString.append(curToken);
+            errorString.append(curToken + " ");
             if (curToken.equals("<artist>")) {
                 parseArtist();
+                songError = true;
             } else if (curToken.equals("<title>")) {
                 parseTitle();
+                songError = true;
             } else if (curToken.equals("<album>")) {
                 parseAlbum();
+                songError = true;
             } else if (curToken.equals("<playcount>")) {
                 parsePlaycount();
+                songError = true;
             } else if (curToken.equals("</song>")) {
                 throw new NoSuchElementException("No ending artist tag");
             } else {
@@ -229,7 +248,7 @@ public class SongReader {
         }
 
         errorString.append("\n");
-        errorString.append(curToken);
+        errorString.append(curToken + " ");
         errorString.append("\n");
         return retval.toString().trim();
     }

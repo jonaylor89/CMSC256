@@ -51,7 +51,7 @@ public class Song implements Comparable {
         if (album != null && !title.equals(""))
             this.title = title;
         else {
-            this.album = "unknown";
+            this.title = "unknown";
         }
     }
 
@@ -99,7 +99,7 @@ public class Song implements Comparable {
      ***********************************************/
     @Override
     public String toString() {
-        return String.format("Title: %s \nArtist: %s \nAlbum: %s", artist, album, title);
+        return String.format("Title: %s \nArtist: %s \nAlbum: %s", title, artist, album);
     }
 
     /**************************************
