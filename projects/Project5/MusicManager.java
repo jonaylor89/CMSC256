@@ -19,14 +19,29 @@ public class MusicManager {
     public static void main(String[] argv) {
         printHeading();
 
+        String fileName;
+        String option1;
+        String option2;
+
         if (argv.length != 3) {
-            System.out.println("[!!!] Not enough arguments. Exiting");
-            System.exit(1);
+            Scanner userInput = new Scanner(System.in);
+            System.out.print("Enter filename: ");
+            fileName = userInput.next();
+            System.out.print("Enter first option: ");
+            option1 = userInput.next();
+            if (!option1.equals("1")) {
+                System.out.print("Enter second option: ");
+                option2 = userInput.next();
+            } else {
+                option2 = "";
+            }
+        } else {
+            fileName = argv[0];
+            option1 = argv[1];
+            option2 = argv[2];
         }
 
-        String fileName = argv[0];
-        String option1 = argv[1];
-        String option2 = argv[2];
+
         Scanner fileInput = null;
         PrintWriter errorFile = null;
         SongReader reader = null;
